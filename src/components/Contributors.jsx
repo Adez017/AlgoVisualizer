@@ -317,9 +317,9 @@ const Contributors = () => {
         ))}
       </motion.div>
 
-      {/* ✅ ENHANCED: The CTA now uses enhanced styling with new classes */}
+      {/* ✅ REFACTORED: The CTA is now a standard theme-card */}
       <motion.div
-        className="theme-card community-cta"
+        className="theme-card"
         style={{ textAlign: 'center' }}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -331,7 +331,7 @@ const Contributors = () => {
           Want to contribute to AlgoVisualizer? We welcome developers of all skill levels! 
           Help us improve algorithm education and build amazing visualizations together.
         </p>
-        <div className="community-cta-buttons">
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
           <a
             href="https://github.com/RhythmPahwa14/AlgoVisualizer"
             target="_blank"
