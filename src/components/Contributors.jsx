@@ -349,7 +349,6 @@ const Contributors = () => {
             Report Issues
           </a>
         </div>
-        </div>
       </motion.div>
     </div>
   );
