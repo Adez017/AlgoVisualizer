@@ -63,11 +63,13 @@
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.10rem;
 }
 
 .navbar-item {
+  font-size: 10px;
   position: relative;
+  gap:auto;
 }
 
 .navbar-link {

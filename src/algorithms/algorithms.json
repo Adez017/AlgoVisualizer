@@ -58,7 +58,12 @@
     "type": "searching",
     "description": "Binary Search divides the search interval in half repeatedly until the target is found. Works only on sorted arrays.",
     "useCase": "Efficient for large sorted datasets."
-  },
+  },{
+    "name": "Ternary Search",
+    "type": "searching",
+    "description": "Ternary Search divides the search interval into three parts and discards two-thirds of the elements in each step. Works only on sorted arrays.",
+    "useCase": "Useful for searching in large sorted datasets where dividing into more parts can reduce the number of comparisons."
+},
   {
     "name": "Jump Search",
     "type": "searching",

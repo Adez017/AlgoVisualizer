@@ -990,7 +990,84 @@ int linearSearch(const vector<int>& arr, int target) {
   return -1`,
     },
     steps: [{ explanation: "Compare target with each element; return index on match." }],
+  },ternarySearch: {
+  title: "Ternary Search Algorithm",
+  description:
+    "Search in a sorted array by dividing the search space into three parts and discarding two-thirds at each step.",
+  code: {
+    js: `function ternarySearch(arr, target) {
+  let l = 0, r = arr.length - 1;
+  while (l <= r) {
+    const mid1 = l + Math.floor((r - l) / 3);
+    const mid2 = r - Math.floor((r - l) / 3);
+    if (arr[mid1] === target) return mid1;
+    if (arr[mid2] === target) return mid2;
+    if (target < arr[mid1]) r = mid1 - 1;
+    else if (target > arr[mid2]) l = mid2 + 1;
+    else {
+      l = mid1 + 1;
+      r = mid2 - 1;
+    }
+  }
+  return -1;
+}`,
+    java: `public static int ternarySearch(int[] arr, int target) {
+  int l = 0, r = arr.length - 1;
+  while (l <= r) {
+    int mid1 = l + (r - l) / 3;
+    int mid2 = r - (r - l) / 3;
+    if (arr[mid1] == target) return mid1;
+    if (arr[mid2] == target) return mid2;
+    if (target < arr[mid1]) r = mid1 - 1;
+    else if (target > arr[mid2]) l = mid2 + 1;
+    else {
+      l = mid1 + 1;
+      r = mid2 - 1;
+    }
+  }
+  return -1;
+}`,
+    cpp: `#include <vector>
+using namespace std;
+
+int ternarySearch(const vector<int>& arr, int target) {
+  int l = 0, r = (int)arr.size() - 1;
+  while (l <= r) {
+    int mid1 = l + (r - l) / 3;
+    int mid2 = r - (r - l) / 3;
+    if (arr[mid1] == target) return mid1;
+    if (arr[mid2] == target) return mid2;
+    if (target < arr[mid1]) r = mid1 - 1;
+    else if (target > arr[mid2]) l = mid2 + 1;
+    else {
+      l = mid1 + 1;
+      r = mid2 - 1;
+    }
+  }
+  return -1;
+}`,
+    py: `def ternary_search(arr, target):
+  l, r = 0, len(arr) - 1
+  while l <= r:
+    mid1 = l + (r - l) // 3
+    mid2 = r - (r - l) // 3
+    if arr[mid1] == target: return mid1
+    if arr[mid2] == target: return mid2
+    if target < arr[mid1]:
+      r = mid1 - 1
+    elif target > arr[mid2]:
+      l = mid2 + 1
+    else:
+      l = mid1 + 1
+      r = mid2 - 1
+  return -1`,
   },
+  steps: [
+    { explanation: "Divide the array into three parts by finding mid1 and mid2." },
+    { explanation: "Check if target matches mid1 or mid2; if so, return the index." },
+    { explanation: "If target is less than mid1, search the first third; if greater than mid2, search the third third; else search the middle third." },
+  ],
+},
 
   jumpSearch: {
     title: "Jump Search Algorithm (sorted array)",

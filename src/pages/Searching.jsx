@@ -3,6 +3,7 @@ import { binarySearch } from "../algorithms/binarySearch";
 import { exponentialSearch } from "../algorithms/exponentialSearch";
 import { linearSearch } from "../algorithms/linearSearch";
 import { jumpSearch } from "../algorithms/jumpSearch";
+import { ternarySearch } from "../algorithms/ternarySearch";
 import CodeExplanation from "../components/CodeExplanation";
 import SimpleExportControls from "../components/SimpleExportControls";
 import "../styles/global-theme.css";
@@ -20,7 +21,17 @@ const ALGORITHM_PSEUDOCODE = {
       explain: "Search right half (l = mid + 1).",
     },
     { code: "  else", explain: "Search left half (r = mid - 1)." },
-  ],
+  ],ternarySearch: [
+  { code: "l = 0, r = n - 1", explain: "Initialize search range." },
+  { code: "while l <= r", explain: "While the range is valid..." },
+  { code: "  mid1 = l + floor((r - l) / 3)", explain: "Calculate first mid index." },
+  { code: "  mid2 = r - floor((r - l) / 3)", explain: "Calculate second mid index." },
+  { code: "  if arr[mid1] == target", explain: "Target found at mid1." },
+  { code: "  else if arr[mid2] == target", explain: "Target found at mid2." },
+  { code: "  else if target < arr[mid1]", explain: "Search in the first third (r = mid1 - 1)." },
+  { code: "  else if target > arr[mid2]", explain: "Search in the third third (l = mid2 + 1)." },
+  { code: "  else", explain: "Search in the middle third (l = mid1 + 1, r = mid2 - 1)." }
+],
   linearSearch: [
     { code: "for i in 0..n-1", explain: "Scan each element." },
     { code: "  if arr[i] == target", explain: "Return index." },
@@ -50,6 +61,15 @@ const SEARCHING_DETAILS = {
       "Find insert position in sorted data",
     ],
   },
+  ternarySearch: {
+  time: "Best O(1), Average/Worst O(log₃ n)",
+  space: "O(1) (iterative)",
+  uses: [
+    "Search in sorted datasets with multiple divisions",
+    "Optimize comparisons when search space can be divided into more parts"
+  ]
+},
+
   linearSearch: {
     time: "Best O(1), Average/Worst O(n)",
     space: "O(1)",
@@ -126,6 +146,7 @@ const Searching = () => {
 
   const getAlgoLabel = (algo) =>
     ({
+      TernarySearch: "Ternary Search",
       binarySearch: "Binary Search",
       linearSearch: "Linear Search",
       jumpSearch: "Jump Search",
@@ -310,6 +331,14 @@ const Searching = () => {
             delay
           );
           break;
+          case "ternarySearch":
+          result = await ternarySearch(
+            searchArray,
+            targetValue,
+            setColorArray,
+            delay
+          );
+          break;
         case "exponentialSearch":
           result = await exponentialSearch(
             searchArray,
@@ -359,6 +388,7 @@ const Searching = () => {
                 "binarySearch",
                 "linearSearch",
                 "jumpSearch",
+                "ternarySearch",
                 "exponentialSearch",
               ].map((algo) => (
                 <option key={algo} value={algo}>

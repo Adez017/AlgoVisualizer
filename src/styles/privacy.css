@@ -1,265 +1,204 @@
-/* ----------------- Privacy Policy Styles ----------------- */
+:root {
+  --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --bg-card: rgba(51, 65, 85, 0.4);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --accent-primary: #3b82f6;
+  --accent-light: rgba(59, 130, 246, 0.1);
+  --border-color: rgba(148, 163, 184, 0.2);
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] {
+  --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --accent-primary: #2563eb;
+  --border-color: rgba(226, 232, 240, 0.8);
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
 .privacy-policy-container {
-    background-color: var(--bg-color);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: 1rem;
 }
 
 .privacy-content {
-    max-width: 800px;
-    margin: 0 auto;
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 2.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.privacy-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.privacy-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: 1rem;
+  border: 1px solid var(--border-color);
 }
 
-.privacy-header h1 {
-    color: var(--primary-color);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 1rem 0;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.privacy-header .last-updated {
-    color: var(--muted-text);
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.last-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-light);
+  color: var(--accent-primary);
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+}
+
+.hero-description {
+  color: var(--text-secondary);
 }
 
 .privacy-sections {
-    margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .privacy-section {
-    margin-bottom: 3rem;
+  background: var(--bg-card);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
 }
 
-.privacy-section h2 {
-    color: var(--primary-color);
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--accent-color) !important;
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.privacy-section p {
-    color: var(--text-color);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
+.section-icon {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-light);
+  border-radius: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.section-description {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
 .privacy-list {
-    padding-left: 1.5rem;
-    margin: 1.5rem 0;
-    list-style: none;
+  list-style: none;
+  padding: 0;
 }
 
-.privacy-list li {
-    color: var(--text-color);
-    margin-bottom: 0.8rem;
-    line-height: 1.6;
-    position: relative;
-    padding-left: 1.25rem;
+.privacy-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  padding: 0.5rem 0;
 }
 
-.privacy-list li::before {
-    content: "•";
-    color: var(--accent-color);
-    position: absolute;
-    left: 0;
-    font-weight: bold;
+.privacy-list-item::before {
+  content: '→';
+  color: var(--accent-primary);
 }
 
-.privacy-list strong {
-    color: var(--primary-color);
-    font-weight: 600;
+.contact-section {
+  background: var(--accent-light);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
 }
 
-/* Links */
-a {
-    color: var(--link-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
+.contact-title {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+.contact-button {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;         
+  display: inline-block;         
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-a:hover {
-    color: var(--link-hover-color);
-    text-decoration: underline;
+.contact-button:hover {
+  background: var(--accent-primary-hover, #6b4efc); /* fallback hover color */
+  transform: translateY(-2px);
 }
 
-/* Inputs and Buttons Standardization */
-input, textarea, select {
-    background: var(--input-bg);
-    color: var(--text-color);
-    border: 1px solid var(--input-border);
-    padding: 0.6rem 0.8rem;
-    border-radius: 8px;
-    width: 100%;
-    font-size: 1rem;
-    transition: all 0.25s ease;
+.contact-button a,
+.contact-button Link {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+.privacy-footer {
+  text-align: center;
+  padding: 1rem 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
 }
 
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 6px var(--accent-color);
-}
-
-button {
-    background: var(--button-bg);
-    color: var(--button-text);
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.25s ease;
-}
-
-button:hover {
-    background: var(--accent-color);
-    color: var(--text-color);
-}
-
-/* ----------------- Responsive Design ----------------- */
-
-/* Tablet and below */
-@media (max-width: 1024px) {
-    .privacy-content {
-        padding: 2rem 1.25rem;
-    }
-
-    .privacy-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .privacy-header h1 {
-        font-size: 2rem;
-    }
-
-    .privacy-section h2 {
-        font-size: 1.5rem;
-    }
-}
-
-/* Mobile Large (up to 768px) */
 @media (max-width: 768px) {
-    .privacy-content {
-        padding: 1.5rem 1rem;
-    }
-
-    .privacy-header h1 {
-        font-size: 1.75rem;
-    }
-
-    .privacy-section h2 {
-        font-size: 1.25rem;
-    }
-
-    .privacy-section p {
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-
-    .privacy-list {
-        padding-left: 1rem;
-    }
-
-    button, input, textarea, select {
-        font-size: 0.95rem;
-        padding: 0.5rem 0.8rem;
-    }
-}
-
-/* Mobile Small (up to 480px) */
-@media (max-width: 480px) {
-    .privacy-content {
-        padding: 1rem;
-        border-radius: 8px;
-    }
-
-    .privacy-header {
-        gap: 0.75rem;
-        margin-bottom: 2rem;
-    }
-
-    .privacy-header h1 {
-        font-size: 1.5rem;
-        text-align: left;
-    }
-
-    .privacy-header .last-updated {
-        font-size: 0.8rem;
-    }
-
-    .privacy-section h2 {
-        font-size: 1.1rem;
-    }
-
-    .privacy-section p {
-        font-size: 0.9rem;
-    }
-
-    .privacy-list li {
-        font-size: 0.9rem;
-        margin-bottom: 0.6rem;
-    }
-
-    button {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-    }
-}
-
-
-/* ----------------- Light & Dark Theme Variables ----------------- */
-:root {
-    --bg-color: #1a1a1a;
-    --text-color: #d1d5db;
-    --muted-text: #9ca3af;
-    --card-bg: rgba(30,30,30,0.8);
-    --primary-color: #ffffff;
-    --accent-color: #08b3e7;
-    --link-color: #4ade80;
-    --link-hover-color: #86efac;
-    --input-bg: rgba(255,255,255,0.05);
-    --input-border: rgba(255,255,255,0.1);
-    --button-bg: rgba(255,255,255,0.1);
-    --button-text: #ffffff;
-}
-
-/* Light Mode Overrides */
-[data-theme="light"] {
-    --bg-color: #fefefe;
-    --text-color: #111827;
-    --muted-text: #6b7280;
-    --card-bg: rgba(255,255,255,0.9);
-    --primary-color: #111827;
-    --accent-color: #0284c7;
-    --link-color: #0284c7;
-    --link-hover-color: #0369a1;
-    --input-bg: #ffffff;
-    --input-border: #d1d5db;
-    --button-bg: #0284c7;
-    --button-text: #ffffff;
+  .privacy-content {
+    padding: 0.5rem;
+  }
+  
+  .privacy-hero {
+    padding: 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .privacy-section {
+    padding: 1rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
 }

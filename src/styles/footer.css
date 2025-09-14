@@ -80,11 +80,21 @@
 .logo-text {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(90deg, var(--text-primary), var(--accent-color));
   -webkit-background-clip: text;
   background-clip: text;
+  color: var(--primary-color); /* fallback if gradient doesn’t render */
   -webkit-text-fill-color: transparent;
 }
+.logo-image {
+  width: 50px;              /* slightly bigger for visibility */
+  height: 50px;             /* fixed height to make border-radius work */
+  border-radius: 10%;       /* makes it a perfect circle */
+  margin-right: 12px;
+  object-fit: cover;        /* ensures the image fills the circle */
+  display: block;
+}
+
 
 .brand-tagline {
   color: var(--subtext-color);

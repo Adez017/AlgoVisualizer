@@ -101,6 +101,31 @@ body {
   color: var(--theme-text-primary);
   margin-bottom: 1rem;
 }
+.theme-selection{
+  color: var(--theme-text-primary);
+  background-color: var(--theme-input-border);
+}
+.color-theme{
+  display: block;
+  width: 100%; 
+  padding: 1.2rem;
+}
+.color-theme input{ 
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.preview-color{
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--theme-text-primary);
+  margin-bottom: 1rem;
+}
+@media (max-width : 415px){
+  .color-theme input{
+    width: 100%;
+  } 
+}
+
 
 /* -----------------
    4. Buttons

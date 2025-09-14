@@ -24,6 +24,39 @@ body {
     margin: 0;
     padding: 0;
 }
+.about {
+    background-color: var(--bg-color); /* dynamic background */
+    color: var(--text-color);          /* main text color */
+    min-height: 100vh;                 /* make it cover full screen */
+    padding: 2rem;
+}
+.about-title,
+.about-subtitle,
+.about-small-title,
+.about-text,
+.about-list li {
+    color: var(--text-color); /* headings and main text */
+}
+
+.about-list li {
+    color: var(--subtext-color); /* subtext / list items */
+}
+.about-card {
+    background-color: var(--bg-color); /* keep card consistent with theme */
+    color: var(--text-color);
+    border: 1px solid var(--subtext-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+.about-button {
+    background-color: var(--subtext-color);
+    color: var(--bg-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+}
 
 /* =========================
    Section Headings
