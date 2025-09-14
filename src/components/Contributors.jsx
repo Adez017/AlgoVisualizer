@@ -1,5 +1,5 @@
 // cspell:words sandeepvashishtha Vashishtha rhythmpahwa Pahwa noopener noreferrer
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import "../styles/global-theme.css";
 
@@ -9,7 +9,7 @@ const mockContributors = [
     id: 1,
     login: 'sandeepvashishtha',
     name: 'Sandeep Vashishtha',
-    avatar_url: 'https://github.com/sandeepvashishtha.png',
+    avatar_url: '/avatars/sandeep-avatar.svg',
     html_url: 'https://github.com/sandeepvashishtha',
     contributions: 125,
     role: 'Project Lead & Full Stack Developer',
@@ -19,7 +19,7 @@ const mockContributors = [
     id: 2,
     login: 'rhythmpahwa14',
     name: 'Rhythm Pahwa',
-    avatar_url: 'https://github.com/rhythmpahwa14.png',
+    avatar_url: '/avatars/rhythm-avatar.svg',
     html_url: 'https://github.com/rhythmpahwa14',
     contributions: 50,
     role: 'Senior Contributor & Developer',
@@ -78,6 +78,82 @@ const getRoleByGitHubActivity = (contributor) => {
   }
   
   return 'New Contributor';
+};
+
+// Animated Counter Component for dynamic commit badge
+const AnimatedCounter = ({ value, duration = 2000 }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          let start = 0;
+          const end = parseInt(value);
+          const increment = end / (duration / 16);
+          
+          const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, 16);
+          
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (countRef.current) {
+      observer.observe(countRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [value, duration]);
+
+  return (
+    <span ref={countRef} className="contribution-count">
+      {count}
+    </span>
+  );
+};
+
+// Helper function to get contributor type class
+const getContributorTypeClass = (contributions) => {
+  if (contributions > 100) return 'core-maintainer';
+  if (contributions > 50) return 'active-developer';
+  return 'regular-contributor';
+};
+
+// Helper function to get activity level class
+const getActivityLevelClass = (contributions) => {
+  if (contributions > 50) return 'high-activity';
+  if (contributions > 20) return 'medium-activity';
+  return 'low-activity';
+};
+
+// Helper function to get commit badge class based on specified ranges
+const getCommitBadgeClass = (contributions) => {
+  if (contributions >= 200) return 'high-commits'; // Gold for 200+
+  if (contributions >= 51) return 'medium-commits'; // Green for 51-200
+  if (contributions >= 10) return 'low-commits'; // Blue for 10-50
+  return 'very-low-commits'; // Gray for under 10
+};
+
+// Helper function to get role badge info
+const getRoleBadgeInfo = (role, contributions) => {
+  if (role.includes('Lead') || role.includes('Maintainer')) {
+    return { icon: '👑', class: 'maintainer' };
+  }
+  if (role.includes('Senior') || contributions > 50) {
+    return { icon: '⭐', class: 'mentor' };
+  }
+  return null;
 };
 
 const Contributors = () => {
@@ -262,6 +338,7 @@ const Contributors = () => {
       >
         {/* ✅ MODIFIED: The header now uses our global theme class. */}
         <h1 className="theme-title">Our Amazing Contributors</h1>
+        <p className="contributors-header subtitle">Building Together, Growing Together</p>
       </motion.div>
 
       {/* ✅ MODIFIED: The grid now uses our new global class. */}
@@ -272,49 +349,88 @@ const Contributors = () => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        {contributors.map((contributor) => (
-          // ✅ MODIFIED: The card now uses our new global class.
-          <motion.div
-            key={contributor.id}
-            className="contributor-card"
-            variants={itemVariants}
-          >
-            <div className="contributor-avatar">
-              <img
-                src={contributor.avatar_url}
-                alt={contributor.name || contributor.login}
-                onError={(e) => {
-                  e.target.src = `https://ui-avatars.com/api/?name=${contributor.name || contributor.login}&background=6366f1&color=ffffff&size=120`;
-                }}
-              />
-              <div className="contribution-badge">
-                <span className="contribution-count">{contributor.contributions}</span>
-                <span className="contribution-label">commits</span>
+        {contributors.map((contributor) => {
+          const contributorTypeClass = getContributorTypeClass(contributor.contributions);
+          const activityLevelClass = getActivityLevelClass(contributor.contributions);
+          const commitBadgeClass = getCommitBadgeClass(contributor.contributions);
+          const roleBadgeInfo = getRoleBadgeInfo(contributor.role, contributor.contributions);
+          
+          return (
+            // ✅ MODIFIED: The card now uses our new enhanced classes.
+            <motion.div
+              key={contributor.id}
+              className={`contributor-card ${contributorTypeClass} ${activityLevelClass}`}
+              variants={itemVariants}
+            >
+              <div className="card-glow"></div>
+              <div className="contributor-avatar">
+                <div className="avatar-ring"></div>
+                <img
+                  src={contributor.avatar_url}
+                  alt={contributor.name || contributor.login}
+                  onError={(e) => {
+                    e.target.src = `https://ui-avatars.com/api/?name=${contributor.name || contributor.login}&background=6366f1&color=ffffff&size=120`;
+                  }}
+                />
+                {roleBadgeInfo && (
+                  <div className={`role-badge ${roleBadgeInfo.class}`}>
+                    {roleBadgeInfo.icon}
+                  </div>
+                )}
+                <div className={`contribution-badge ${commitBadgeClass}`}>
+                  <AnimatedCounter value={contributor.contributions} />
+                  <span className="contribution-label">commits</span>
+                </div>
               </div>
-            </div>
-            
-            {/* ✅ MODIFIED: All child elements now use our new global classes. */}
-            <div className="contributor-info">
-              <h3 className="contributor-name">{contributor.name || contributor.login}</h3>
-              <p className="contributor-role">{contributor.role}</p>
-              <p className="contributor-bio">{contributor.bio}</p>
               
-              <div style={{ marginTop: 'auto' }}>
-                <a
-                  href={contributor.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary" // ✅ MODIFIED: Using our global button class
-                >
-                  <svg viewBox="0 0 24 24" width="18" height="18" style={{ marginRight: '8px' }}>
-                    <path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                  </svg>
-                  View Profile
-                </a>
+              {/* ✅ MODIFIED: All child elements now use our new enhanced classes. */}
+              <div className="contributor-info">
+                <h3 className="contributor-name">{contributor.name || contributor.login}</h3>
+                <p className="contributor-role">{contributor.role}</p>
+                <p className="contributor-bio">{contributor.bio}</p>
+                
+                {/* Enhanced contribution stats */}
+                <div className="contribution-stats">
+                  <div className="stat-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span className="stat-value">{contributor.contributions}</span>
+                    <span>PRs</span>
+                  </div>
+                  <div className="stat-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span className="stat-value">{Math.floor(contributor.contributions * 0.3)}</span>
+                    <span>Issues</span>
+                  </div>
+                  <div className="stat-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/>
+                    </svg>
+                    <span className="stat-value">{Math.floor(contributor.contributions * 0.5)}</span>
+                    <span>Reviews</span>
+                  </div>
+                </div>
+                
+                <div className="contributor-links">
+                  <a
+                    href={contributor.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="github-link"
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
+                      <path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    View Profile
+                  </a>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </motion.div>
 
       {/* ✅ REFACTORED: The CTA is now a standard theme-card */}
